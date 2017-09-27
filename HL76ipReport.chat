@@ -1,0 +1,16 @@
+# For sierra wireless HL76xx
+# chatscript to automate the IP data connection AT commands
+#
+# To execute this chatscript
+# chat -v -f ./pilot/HL76ipReport.chat > /dev/ttyACM2 < /dev/ttyACM2
+#
+# abortstring
+ABORT 'ERROR'
+
+# read the address
+REPORT +CGPADDR: '' AT+CGPADDR=3 
+OK
+
+
+
+
