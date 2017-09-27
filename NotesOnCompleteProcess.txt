@@ -109,12 +109,20 @@ sudo dhcpcd wwan1 \
 
 sudo dhcpcd wwan1 -S domain_name_servers=172.30.139.16 172.31.139.16
 
+## this works added to /etc/dhcpcd.conf
+
 interface wwan1
 static domain_name_servers=8.8.8.8
 static routers=10.141.18.211
 inform 10.141.18.211
 static domain_search=10.141.18.211
 
+## needs kill then restart
+sudo dhcpcd -k
 
+## then (add -d for debug output)
+sudo dhcpcd 
+
+## or to avoid editing /etc/dhcpcd.conf
 sudo dhcpcd wwan1 --inform 10.141.18.211 --static routers=10.141.18.211 --static domain_search=10.141.18.211 --static domain_name_servers=8.8.8.8
 
