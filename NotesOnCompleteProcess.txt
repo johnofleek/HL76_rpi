@@ -68,7 +68,8 @@ AT+XDATACHANNEL=1,1,"/USBCDC/0","/USBHS/NCM/1",2,3
 
 
 
-# Start the data connection by the following command
+# Start the data connection by the following command 
+# - sometimes fails with +CME ERROR: operation not allowed
 AT+CGDATA="M-RAW_IP",3
 ## expect CONNECT returned
 
@@ -86,8 +87,9 @@ AT+XDNS?
 ##
 
 ### the following are shell commands - use actual IP address from cgpaddr
+WWAN1_IP=10.35.115.72
 sudo ifconfig wwan1 down
-sudo ifconfig wwan1 -arp 10.67.185.253
+sudo ifconfig wwan1 -arp $WWAN1_IP
 
 ### add wwan as route - ? not needed when dhcpcd configured correctly 
 sudo route add default wwan1
@@ -101,15 +103,10 @@ chat -v -f ./pilot/HL76ipReport.chat > /dev/ttyACM2 < /dev/ttyACM2
 # get dns address 
 chat -v -f ./pilot/HL76ipDnsReport.chat > /dev/ttyACM2 < /dev/ttyACM2
 
-# example of setting ip address 
-sudo dhcpcd wwan1 \
--S ip_address=10.139.62.31/24 \
--S routers= 10.139.62.31\
--S domain_name_servers=172.30.139.16 172.31.139.16
 
-sudo dhcpcd wwan1 -S domain_name_servers=172.30.139.16 172.31.139.16
 
-## this works added to /etc/dhcpcd.conf
+
+## this works appended to /etc/dhcpcd.conf
 
 interface wwan1
 static domain_name_servers=8.8.8.8
@@ -125,4 +122,16 @@ sudo dhcpcd
 
 ## or to avoid editing /etc/dhcpcd.conf
 sudo dhcpcd wwan1 --inform 10.141.18.211 --static routers=10.141.18.211 --static domain_search=10.141.18.211 --static domain_name_servers=8.8.8.8
+
+WWAN1_IP=10.35.115.72
+
+
+WWAN1_DNS=8.8.8.8
+
+# try variables and static setting
+sudo dhcpcd wwan1 \
+--inform $WWAN1_IP \
+--static routers=$WWAN1_IP \
+--static domain_search=$WWAN1_IP \
+--static domain_name_servers=$WWAN1_DNS
 

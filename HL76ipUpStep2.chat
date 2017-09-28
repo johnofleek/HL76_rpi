@@ -9,7 +9,7 @@
 ABORT 'ERROR'
 
 
-'' ATZ
+'' AT
 
 # Start the data connection by the following command
 OK AT+CGDATA="M-RAW_IP",3

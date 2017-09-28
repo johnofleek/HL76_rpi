@@ -9,7 +9,7 @@ ABORT 'ERROR'
 
 # read the address
 REPORT +CGPADDR: '' AT+CGPADDR=3 
-OK
+CGPADDR: ''
 
 
 
