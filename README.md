@@ -20,7 +20,14 @@ The scripts are executed from
  2016-11-01 17:32:04
  r6274
 
-## settings
+## Rasbian
+uname -a
+Linux raspberrypi 4.9.35-v7+ #1014 SMP Fri Jun 30 14:47:43 BST 2017 armv7l GNU/Linux
+
+## HW - Raspberry pi
+Pi 2 model B v1.1
+
+## Settings
 Note that ttyACM0 has been used in this example. This is because with if ttyACM2 is used
  the  AT+CGDATA="M-RAW_IP",3 fails or crashes the HL device.
 File commandPort.cfg contains the path to the tty to use for commands.
