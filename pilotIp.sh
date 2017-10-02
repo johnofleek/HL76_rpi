@@ -1,7 +1,9 @@
 #!/bin/bash
 
 ## default global values
-COMMAND_PORT="/dev/ttyACM0"
+# COMMAND_PORT="/dev/ttyACM0"
+
+COMMAND_PORT=$(<./pilot/commandPort.cfg)
 
 WWAN1_IP=0.0.0.0
 WWAN1_DNS=8.8.8.8
