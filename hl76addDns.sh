@@ -1,26 +1,5 @@
 #!/bin/bash
 
-echo HL76 IP bringup - should connect WWAN1 to the internet
-
-## run as sudo ./pilot/hl76up.sh
-
-## STEP_ restart dhcpcd
-## STEP1 configure the hl76 
-
-## STEP3 read back the hl76 IP addresses using AT commands
-## STEP4 set the wwan1 IP using hl76 IP address
-## STEP5 use dhcdcd to set dns and routing
-
-## STEP1 configure the hl76 
-chat -v -f ./pilot/HL76ipUp.chat > /dev/ttyACM2 < /dev/ttyACM2
-
-sleep 3
-
-####
-## STEP2 start the hl76 IP wwan1
-chat -v -f ./pilot/HL76ipUpStep2.chat > /dev/ttyACM2 < /dev/ttyACM2
-
-sleep 3
 
 ####
 ## STEP3 read back the hl76 IP addresses using AT commands
@@ -37,18 +16,21 @@ python ./pilot/processIpAddresses.py
 WWAN1_IP=$(< wwan3Ip.txt)
 WWAN1_DNS=8.8.8.8
 
-####
-## STEP4 set the wwan1 IP using hl76 IP address
-sudo ifconfig wwan1 down
-sleep 3
-sudo ifconfig wwan1 -arp $WWAN1_IP
-sleep 3
+echo IP $WWAN1_IP
+
+
+
+
 ## needs kill then restart
-sudo dhcpcd -k
+echo Kill dhcpcd
+
+dhcpcd -k
 sleep 3
 
 ## STEP5 use dhcdcd to set dns and routing
-sudo dhcpcd wwan1 \
+echo restart dhcpcd
+
+dhcpcd wwan1 \
 --inform $WWAN1_IP \
 --static routers=$WWAN1_IP \
 --static domain_search=$WWAN1_IP \
